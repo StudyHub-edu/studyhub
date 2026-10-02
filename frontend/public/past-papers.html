@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Past Papers — StudyHub</title>
+  <script>
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem('studyhub_theme'); } catch (e) {}
+      var light = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      document.documentElement.dataset.theme = saved || 'light';
+    })();
+  </script>
+  <link rel="icon" href="/assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/auth.css" />
+  <link rel="stylesheet" href="css/dashboard-v2.css" />
+  <link rel="stylesheet" href="css/past-papers.css?v=2" />
+</head>
+<body class="dash2 past-papers-page">
+  <header class="papers-header">
+    <a class="papers-header__back" id="back-link" href="dashboard.html" aria-label="Back to dashboard">←</a>
+    <a class="papers-header__brand" id="home-link" href="dashboard.html">
+      <img src="/assets/studyhub-logo.png" alt="" /> StudyHub <span>Past Papers</span>
+    </a>
+    <div class="papers-header__user">
+      <span class="avatar avatar--sm" data-avatar>S</span>
+      <img class="avatar avatar--sm" data-avatar-img hidden alt="" />
+      <button type="button" class="btn btn--primary btn--sm" id="upload-open">
+        <span class="btn__label">Upload a paper</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="papers-wrap">
+    <section class="papers-intro">
+      <div>
+        <h1>Past papers, shared by your community</h1>
+        <p>Find exam practice by level, subject, year, and school or college. Students and teachers can share scanned paper images.</p>
+      </div>
+    </section>
+    <div class="papers-filters" aria-label="Filter past papers">
+      <input id="filter-search" type="search" placeholder="Search exam, subject, institution…" aria-label="Search past papers" />
+      <select id="filter-level" aria-label="Filter by education level"><option value="">All levels</option></select>
+      <select id="filter-exam" aria-label="Filter by exam"><option value="">All exams</option></select>
+      <select id="filter-institution" aria-label="Filter by institution"><option value="">All schools / colleges</option></select>
+      <select id="filter-year" aria-label="Filter by year"><option value="">All years</option></select>
+    </div>
+    <p class="papers-status" id="papers-status" role="status" aria-live="polite"></p>
+    <section class="papers-grid" id="papers-grid" aria-live="polite"></section>
+  </main>
+
+  <div class="papers-modal" id="upload-modal" hidden>
+    <section class="papers-modal__card" role="dialog" aria-modal="true" aria-labelledby="upload-title">
+      <header class="papers-modal__head">
+        <div><h2 id="upload-title">Share a past paper</h2><p>JPG, PNG, or WebP image up to 25 MB. Add accurate exam details so others can find it.</p></div>
+        <button type="button" class="papers-close" id="upload-close" aria-label="Close">×</button>
+      </header>
+      <form id="upload-form">
+        <label>Paper title<input id="paper-title" required maxlength="140" placeholder="e.g. Grade 10 Mathematics Final Exam"></label>
+        <div class="papers-form-row">
+          <label>Exam name<input id="paper-exam" required maxlength="80" placeholder="SEE, NEB, entrance exam…"></label>
+          <label>Education level<input id="paper-level" required maxlength="60" placeholder="Class 10, Grade 12, Bachelor's…"></label>
+        </div>
+        <div class="papers-form-row">
+          <label>Subject<input id="paper-subject" required maxlength="80" placeholder="Mathematics"></label>
+          <label>Exam year<input id="paper-year" type="number" required min="1900" max="2100" value="2026"></label>
+        </div>
+        <label>School / college / institution<input id="paper-institution" required maxlength="160" placeholder="Type the institution name"></label>
+        <label>Description (optional)<textarea id="paper-description" maxlength="500" rows="3" placeholder="Anything others should know about this paper?"></textarea></label>
+        <label>Question paper images<input id="paper-file" type="file" accept="image/jpeg,image/png,image/webp" multiple required><small>Add up to 10 clear photos or scans, each up to 25 MB. Only share files you have permission to distribute.</small></label>
+        <label class="papers-rights"><input id="paper-rights" type="checkbox" required> I have permission to share this file, and its details are accurate.</label>
+        <p class="papers-error" id="upload-error" role="alert"></p>
+        <footer class="papers-modal__actions">
+          <button type="button" class="btn btn--ghost btn--sm" id="upload-cancel"><span class="btn__label">Cancel</span></button>
+          <button type="submit" class="btn btn--primary btn--sm" id="upload-submit"><span class="btn__label">Upload paper</span></button>
+        </footer>
+      </form>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/auth.js?v=5"></script>
+  <script src="js/past-papers.js?v=4"></script>
+</body>
+</html>

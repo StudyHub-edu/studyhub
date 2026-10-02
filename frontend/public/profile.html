@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Profile — StudyHub</title>
+
+  <script>
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem('studyhub_theme'); } catch (e) {}
+      document.documentElement.dataset.theme = saved || 'light';
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/auth.css" />
+  <link rel="stylesheet" href="css/dashboard.css?v=13" />
+  <link rel="stylesheet" href="css/profile.css?v=4" />
+</head>
+
+<body class="dashboard">
+
+  <!-- ============================================================ TOPBAR -->
+  <header class="topbar" id="topbar">
+    <a href="dashboard.html" class="topbar__brand">
+      <img src="/assets/studyhub-logo.png" alt="StudyHub" class="topbar__brand-logo">
+      StudyHub
+    </a>
+
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+
+    <nav class="topbar__nav">
+      <a href="dashboard.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+        Home
+      </a>
+      <a href="/library/">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13Z"/></svg>
+        Learn
+      </a>
+      <a href="/library/">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h4v16H4zM10 4h4v16h-4zM16 6l4-1 1 15-4 1z"/></svg>
+        Library
+      </a>
+      <a href="/community/">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 19c0-3 3-5.2 6.5-5.2s6.5 2.2 6.5 5.2"/><circle cx="17.5" cy="8.5" r="2.3"/><path d="M15.8 13.9c2.6.3 4.7 2.2 4.7 4.6"/></svg>
+        Community
+      </a>
+      <a href="ai-teacher.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/><rect x="7" y="7" width="10" height="10" rx="3"/></svg>
+        AI Teacher
+      </a>
+      <a href="/community/#/members">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+        Teachers
+      </a>
+      <a href="map.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20 3 17V4l6 3 6-3 6 3v13l-6-3-6 3Z"/><path d="M9 7v13M15 4v13"/></svg>
+        Map
+      </a>
+      <a href="/community/#/calendar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        Calendar
+      </a>
+    </nav>
+
+    <div class="topbar__right">
+      <div class="profile-menu" id="profile-menu">
+        <button type="button" class="profile-trigger" id="profile-trigger">
+          <span class="avatar avatar--sm" data-avatar>S</span>
+          <img class="avatar avatar--sm" data-avatar-img hidden alt="" />
+          <svg class="profile-trigger__caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="profile-dropdown">
+          <div class="profile-dropdown__head">
+            <span class="avatar avatar--md" data-avatar>S</span>
+            <img class="avatar avatar--md" data-avatar-img hidden alt="" />
+            <div>
+              <div class="profile-dropdown__name"><span data-identity-name>—</span></div>
+              <div class="profile-dropdown__meta" data-identity-meta>—</div>
+            </div>
+          </div>
+          <a href="profile.html" class="is-active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>My Profile</a>
+          <a href="profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>Settings</a>
+          <div class="profile-dropdown__divider"></div>
+          <button type="button" class="is-danger" onclick="studyHubSignOut()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg>Logout
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================== MAIN -->
+  <main class="dash-main profile-main">
+
+    <div class="alert" id="page-alert" hidden></div>
+
+    <!-- ---------------------------------------------------------- header -->
+    <section class="profile-header-card">
+      <div class="profile-photo">
+        <span class="avatar avatar--xl" data-avatar>S</span>
+        <img class="avatar avatar--xl" data-avatar-img hidden alt="Your profile photo" />
+        <button type="button" class="profile-photo__edit" id="avatar-btn" aria-label="Change profile photo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L18.5 9.5a2 2 0 0 0 0-2.8l-1.2-1.2a2 2 0 0 0-2.8 0L4 15v5Z"/></svg>
+        </button>
+        <input type="file" id="avatar-input" accept="image/png,image/jpeg,image/webp" hidden />
+      </div>
+
+      <div class="profile-header-card__text">
+        <h1 data-identity-name>—</h1>
+        <p data-identity-meta>—</p>
+        <span class="id-badge" id="identity-badge">Checking status…</span>
+      </div>
+    </section>
+
+    <div class="profile-grid">
+
+      <!-- ------------------------------------------------- basic details -->
+      <section class="panel">
+        <div class="section-head"><h2>Basic details</h2></div>
+        <form id="basic-form" novalidate>
+          <div class="field">
+            <label for="full-name">Full name</label>
+            <input type="text" id="full-name" name="full-name" placeholder="Your full name" />
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" placeholder="Your phone number" />
+          </div>
+          <div class="field" style="margin-bottom: 0">
+            <label>Email</label>
+            <input type="text" id="email-readonly" disabled />
+          </div>
+          <button type="submit" class="btn btn--primary" id="basic-save-btn" style="margin-top: 0.4rem; width: auto; padding-inline: 1.6rem">
+            <span class="btn__spinner" aria-hidden="true"></span>
+            <span class="btn__label">Save changes</span>
+          </button>
+        </form>
+      </section>
+
+      <!-- ---------------------------------------------------- id verify -->
+      <section class="panel" id="identity-verification">
+        <div class="section-head"><h2>Identity verification</h2></div>
+
+        <!-- Not submitted / rejected -->
+        <div id="verify-start">
+          <p class="verify-copy">
+            Point your camera at your school or college ID card. StudyHub reads
+            it automatically — no typing needed — and an admin reviews the
+            photo before your account shows as verified.
+          </p>
+          <button type="button" class="btn btn--primary" id="scan-btn" style="width: auto; padding-inline: 1.6rem">
+            <span class="btn__spinner" aria-hidden="true"></span>
+            <span class="btn__label">Scan my ID card</span>
+          </button>
+        </div>
+
+        <!-- Pending -->
+        <div id="verify-pending" hidden>
+          <div class="verify-status verify-status--pending">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+            <div>
+              <strong>Under review</strong>
+              <p>We read your ID on <span id="pending-date">—</span>. An admin will confirm it shortly.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Verified -->
+        <div id="verify-verified" hidden>
+          <div class="verify-status verify-status--verified">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.2 2.4 2.4 4.6-4.9"/></svg>
+            <div>
+              <strong>Verified</strong>
+              <p>Your identity was confirmed on <span id="verified-date">—</span>.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rejected -->
+        <div id="verify-rejected" hidden>
+          <div class="verify-status verify-status--rejected">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+            <div>
+              <strong>Needs another try</strong>
+              <p id="rejected-note">The last scan couldn't be confirmed. Please scan your ID again.</p>
+            </div>
+          </div>
+          <button type="button" class="btn btn--primary" id="rescan-btn" style="width: auto; padding-inline: 1.6rem; margin-top: 0.9rem">
+            <span class="btn__label">Scan again</span>
+          </button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ============================================================ SCANNER -->
+  <div class="scan-overlay" id="scan-overlay" hidden>
+    <div class="scan-modal">
+      <div class="scan-modal__head">
+        <h3>Scanning your ID card</h3>
+        <button type="button" class="scan-close" id="scan-close" aria-label="Cancel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+
+      <div class="scan-video-wrap">
+        <video id="scan-video" playsinline autoplay muted></video>
+        <div class="scan-frame"></div>
+        <svg class="scan-tracker" id="scan-tracker" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <polygon id="scan-tracker-polygon" points="" />
+        </svg>
+        <div class="scan-scanline" id="scan-scanline"></div>
+      </div>
+
+      <p class="scan-hint" id="scan-hint">Hold your ID flat inside the frame, in good light.</p>
+      <p class="scan-tracker-status" id="scan-tracker-status" aria-live="polite">Looking for your ID card…</p>
+      <button type="button" class="scan-capture" id="scan-capture" disabled>Capture ID photo &amp; send for review</button>
+      <button type="button" class="scan-photo-fallback" id="scan-photo-button">Use camera or choose a photo instead</button>
+      <input type="file" id="scan-photo-input" accept="image/jpeg,image/png,image/webp" capture="environment" hidden />
+      <div class="scan-found" id="scan-found" hidden>
+        <div><span>Name</span><strong id="found-name">—</strong></div>
+        <div><span>Institution</span><strong id="found-institution">—</strong></div>
+        <div><span>Class</span><strong id="found-class">—</strong></div>
+        <div class="scan-found__text"><span>Text read from ID</span><pre id="found-ocr-text"></pre></div>
+      </div>
+    </div>
+  </div>
+
+  <canvas id="scan-canvas" hidden></canvas>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.0/dist/tesseract.min.js"></script>
+  <script async src="https://docs.opencv.org/4.x/opencv.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/auth.js?v=6"></script>
+  <script src="js/dashboard-nav.js"></script>
+  <script src="js/profile.js?v=9"></script>
+</body>
+</html>

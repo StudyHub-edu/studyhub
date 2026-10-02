@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Identity Reviews — StudyHub Admin</title>
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('studyhub_theme');
+        var light = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+        document.documentElement.dataset.theme = saved || 'light';
+      } catch (_) {}
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/auth.css" />
+  <link rel="stylesheet" href="css/dashboard-v2.css" />
+  <link rel="stylesheet" href="css/admin-tools.css" />
+  <link rel="stylesheet" href="css/admin-verifications.css" />
+</head>
+<body class="dash2 admin-tools">
+  <header class="admin-tools__top">
+    <a href="admin-dashboard.html" class="admin-tools__brand"><img src="/assets/studyhub-logo.png" alt="" />StudyHub Admin</a>
+    <nav aria-label="Admin navigation">
+      <a href="admin-dashboard.html">Dashboard</a>
+      <a href="admin-tools.html">Management tools</a>
+      <button type="button" id="theme-toggle" class="admin-tools__theme">Toggle theme</button>
+    </nav>
+  </header>
+  <main class="admin-tools__main">
+    <div class="admin-tools__heading">
+      <div>
+        <p class="admin-tools__eyebrow">IDENTITY VERIFICATION</p>
+        <h1>Student &amp; teacher reviews</h1>
+        <p>Review the submitted ID photo and text read from it before confirming the account.</p>
+      </div>
+      <a class="admin-tools__back" href="admin-dashboard.html">← Back to dashboard</a>
+    </div>
+    <div class="verification-toolbar">
+      <label for="verification-filter">Show</label>
+      <select id="verification-filter">
+        <option value="pending">Pending review</option>
+        <option value="all">All submissions</option>
+        <option value="verified">Verified</option>
+        <option value="rejected">Rejected</option>
+      </select>
+      <button type="button" id="verification-refresh" class="admin-tools__theme">Refresh</button>
+      <span id="verification-count" aria-live="polite"></span>
+    </div>
+    <div id="verification-alert" class="admin-tools__alert" role="status" aria-live="polite" hidden></div>
+    <div id="verification-list" class="verification-list" aria-live="polite">
+      <div class="verification-empty">Loading submissions…</div>
+    </div>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/auth.js?v=2"></script>
+  <script src="js/theme-toggle.js"></script>
+  <script src="js/admin-verifications.js?v=1"></script>
+</body>
+</html>

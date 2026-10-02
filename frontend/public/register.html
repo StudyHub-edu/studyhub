@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Create your StudyHub account</title>
+    <meta
+      name="description"
+      content="Join StudyHub — learn, share, solve and connect with your academic community."
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/auth.css?v=3" />
+  </head>
+
+  <body class="auth-scene auth-scene--register">
+    <main class="shell">
+      <!-- ---------------------------------------------------- brand panel -->
+      <section class="brand-panel">
+        <div class="brand-mark">
+          <span class="brand-mark__glyph" aria-hidden="true">
+            <img src="/assets/studyhub-logo.png" alt="" />
+          </span>
+          <span class="brand-mark__name">StudyHub</span>
+        </div>
+
+        <h1>Learn together.</h1>
+        <p>Your next step starts here.</p>
+      </section>
+
+      <!-- ------------------------------------------------------ auth card -->
+      <section class="auth-card">
+        <header class="auth-card__head">
+          <h2>Create account</h2>
+          <p class="auth-card__sub">Join StudyHub in a few steps.</p>
+        </header>
+
+        <div class="alert" id="form-alert" hidden></div>
+
+        <form id="register-form" novalidate autocomplete="on">
+          <div class="field">
+            <label for="full-name">Full name</label>
+            <input
+              type="text"
+              id="full-name"
+              name="full-name"
+              placeholder="Enter your full name"
+              autocomplete="name"
+              aria-describedby="full-name-error"
+            />
+            <span class="field-error" id="full-name-error" aria-live="polite"></span>
+          </div>
+
+          <!-- Phone sign-up is built and ready, just paused until Twilio is
+               connected without hitting their paid-upgrade wall. To bring it
+               back: remove `hidden` from this fieldset and from #phone-field
+               below. -->
+          <fieldset class="fieldset" hidden>
+            <legend>Sign up with</legend>
+            <div class="segmented">
+              <input type="radio" id="method-email" name="method" value="email" checked />
+              <label for="method-email">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m4 7 8 6 8-6" /></svg>
+                Gmail
+              </label>
+
+              <input type="radio" id="method-phone" name="method" value="phone" />
+              <label for="method-phone">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2" /><path d="M11 18.5h2" /></svg>
+                Phone
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="field" id="email-field">
+            <label for="email">Email address</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              inputmode="email"
+              aria-describedby="email-error email-hint"
+            />
+            <span class="field-error" id="email-error" aria-live="polite"></span>
+            <p class="hint" id="email-hint">We’ll send a verification code to this address. Check your inbox and spam folder.</p>
+          </div>
+
+          <div class="field" id="phone-field" hidden>
+            <label for="phone">Phone number</label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder="+977 98XXXXXXXX"
+              autocomplete="tel"
+              inputmode="tel"
+              aria-describedby="phone-error phone-hint"
+            />
+            <span class="field-error" id="phone-error" aria-live="polite"></span>
+            <p class="hint" id="phone-hint">Include your country code, e.g. +977.</p>
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="password">Password</label>
+              <div class="password-wrap">
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Create a password"
+                  autocomplete="new-password"
+                  aria-describedby="password-error password-hint"
+                />
+                <button
+                  type="button"
+                  class="toggle-password"
+                  data-target="password"
+                  aria-label="Show password"
+                ></button>
+              </div>
+              <div class="strength" id="strength" data-level="0" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+              </div>
+              <span class="field-error" id="password-error" aria-live="polite"></span>
+              <p class="hint" id="password-hint">12+ characters, with a letter and a number.</p>
+            </div>
+
+            <div class="field">
+              <label for="confirm-password">Confirm password</label>
+              <div class="password-wrap">
+                <input
+                  type="password"
+                  id="confirm-password"
+                  name="confirm-password"
+                  placeholder="Confirm your password"
+                  autocomplete="new-password"
+                  aria-describedby="confirm-password-error"
+                />
+                <button
+                  type="button"
+                  class="toggle-password"
+                  data-target="confirm-password"
+                  aria-label="Show password"
+                ></button>
+              </div>
+              <span class="field-error" id="confirm-password-error" aria-live="polite"></span>
+            </div>
+          </div>
+
+          <fieldset class="fieldset">
+            <legend>Account type</legend>
+            <div class="segmented">
+              <input type="radio" id="role-student" name="role" value="student" checked />
+              <label for="role-student">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 2 9l10 5 10-5-10-5Z" /><path d="M6 11v4.5c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5V11" /></svg>
+                Student
+              </label>
+
+              <input type="radio" id="role-teacher" name="role" value="teacher" />
+              <label for="role-teacher">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3.5" width="18" height="13" rx="2" /><path d="M8 20.5h8M12 16.5v4" /></svg>
+                Teacher
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="field">
+            <label for="institution">Institution</label>
+            <div class="combo">
+              <input
+                type="text"
+                id="institution"
+                name="institution"
+                placeholder="Select your school or college"
+                maxlength="160"
+                role="combobox"
+                aria-expanded="false"
+                aria-autocomplete="list"
+                aria-controls="institution-list"
+                autocomplete="off"
+                aria-describedby="institution-error"
+              />
+              <input type="hidden" id="institution-id" name="institution-id" />
+              <ul class="combo__list" id="institution-list" role="listbox" hidden></ul>
+            </div>
+            <span class="field-error" id="institution-error" aria-live="polite"></span>
+          </div>
+
+          <div class="field" id="class-field">
+            <label for="class-level">Class / level</label>
+            <select id="class-level" name="class-level" aria-describedby="class-level-error"></select>
+            <span class="field-error" id="class-level-error" aria-live="polite"></span>
+          </div>
+
+          <label class="check" for="terms">
+            <input type="checkbox" id="terms" name="terms" />
+            <span>I agree to the StudyHub <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a> and <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span>
+          </label>
+
+          <button type="submit" class="btn btn--primary" id="submit-btn" style="margin-top: 1rem">
+            <span class="btn__spinner" aria-hidden="true"></span>
+            <span class="btn__label">Create account</span>
+          </button>
+        </form>
+
+        <div class="divider">or</div>
+
+        <button type="button" class="btn btn--ghost" id="google-btn">
+          <span class="btn__spinner" aria-hidden="true"></span>
+          <svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#4285F4" d="M23 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.2a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.4-5 3.4-8.6Z" />
+            <path fill="#34A853" d="M12 23.5c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.7H1.8v3A11.5 11.5 0 0 0 12 23.5Z" />
+            <path fill="#FBBC05" d="M5.6 14.2a6.9 6.9 0 0 1 0-4.4v-3H1.8a11.5 11.5 0 0 0 0 10.4l3.8-3Z" />
+            <path fill="#EA4335" d="M12 5.5c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.5 11.5 0 0 0 1.8 6.8l3.8 3C6.5 7.4 9 5.5 12 5.5Z" />
+          </svg>
+          <span class="btn__label">Continue with Google</span>
+        </button>
+
+        <p class="auth-card__foot">
+          Already have an account? <a href="index.html">Login</a>
+        </p>
+      </section>
+    </main>
+
+    <!-- Supabase JS v2 (UMD build exposes window.supabase) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+    <script src="js/config.js?v=2"></script>
+    <script src="js/auth.js?v=5"></script>
+    <script src="js/register.js?v=3"></script>
+  </body>
+</html>

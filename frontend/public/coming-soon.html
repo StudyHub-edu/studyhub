@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Coming Soon — StudyHub</title>
+  <script>
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem('studyhub_theme'); } catch (e) {}
+      var light = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      document.documentElement.dataset.theme = saved || 'light';
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/auth.css" />
+  <style>
+    body { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--ink-950); color: var(--text); font-family: var(--font-body); padding: 2rem; }
+    .cs-card { max-width: 420px; text-align: center; background: var(--ink-900); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 2.4rem 2rem; }
+    .cs-card svg { width: 46px; height: 46px; color: var(--blue-soft); margin-bottom: 1rem; }
+    .cs-card h1 { font-family: var(--font-display); font-size: 1.4rem; margin: 0 0 0.5rem; }
+    .cs-card p { color: var(--text-dim); font-size: 0.92rem; margin: 0 0 1.4rem; }
+    .cs-card a.btn { display: inline-block; }
+  </style>
+</head>
+<body>
+  <div class="cs-card">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+    <h1 id="cs-title">Coming Soon</h1>
+    <p id="cs-desc">This part of StudyHub is still being built. Check back soon!</p>
+    <a class="btn btn--primary" id="cs-back" href="dashboard.html"><span class="btn__label">Back to Dashboard</span></a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    (function () {
+      const feature = new URLSearchParams(location.search).get("feature");
+      if (feature) {
+        document.getElementById("cs-title").textContent = feature;
+        document.getElementById("cs-desc").textContent = feature + " isn't built yet, but it's on the way.";
+        document.title = feature + " — Coming Soon — StudyHub";
+      }
+    })();
+    // Send "Back to Dashboard" to whichever dashboard actually matches this person's role.
+    (async () => {
+      try {
+        const session = await getSession();
+        if (!session) return;
+        const { data: profile } = await supabase.from("profiles").select("role").eq("user_id", session.user.id).maybeSingle();
+        document.getElementById("cs-back").href = homeForRole(profile?.role);
+      } catch (err) { /* keep the default link */ }
+    })();
+  </script>
+</body>
+</html>

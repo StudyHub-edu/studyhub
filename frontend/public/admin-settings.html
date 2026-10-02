@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Settings — StudyHub</title>
+  <script>
+    (function () {
+      try { document.documentElement.dataset.theme = localStorage.getItem("studyhub_theme") || "light"; } catch (e) {}
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/auth.css" />
+  <link rel="stylesheet" href="css/dashboard-v2.css?v=14" />
+  <style>
+    body.admin-settings { min-height: 100vh; background: var(--ink-950); color: var(--text); }
+    .admin-settings__topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem clamp(1rem, 4vw, 3rem); background: var(--ink-900); border-bottom: 1px solid var(--line); }
+    .admin-settings__brand { color: var(--text); font: 600 1rem var(--font-display); text-decoration: none; }
+    .admin-settings__back { color: var(--blue); font-weight: 600; text-decoration: none; }
+    .admin-settings__main { width: min(920px, calc(100% - 2rem)); margin: 2rem auto; }
+    .admin-settings__intro { margin-bottom: 1.4rem; }
+    .admin-settings__intro h1 { margin: 0 0 .45rem; font: 700 1.7rem var(--font-display); }
+    .admin-settings__intro p, .admin-settings__card p { color: var(--text-dim); line-height: 1.6; }
+    .admin-settings__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+    .admin-settings__card { padding: 1.2rem; background: var(--ink-900); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow-card); }
+    .admin-settings__card h2 { margin: 0; font: 600 1rem var(--font-display); }
+    .admin-settings__card p { margin: .55rem 0 1rem; font-size: .9rem; }
+    .admin-settings__action { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; margin: .2rem .35rem .15rem 0; padding: .55rem .85rem; border: 1px solid var(--line-strong); border-radius: var(--r-md); color: var(--text); font: 600 .88rem var(--font-body); text-decoration: none; cursor: pointer; background: var(--ink-800); }
+    .admin-settings__action:hover { border-color: var(--blue); }
+    .admin-settings__note { padding: .85rem 1rem; border-left: 3px solid var(--blue); background: var(--ink-800); border-radius: 0 var(--r-md) var(--r-md) 0; color: var(--text-dim); font-size: .88rem; line-height: 1.55; }
+  </style>
+</head>
+<body class="admin-settings">
+  <header class="admin-settings__topbar">
+    <a class="admin-settings__brand" href="admin-dashboard.html">StudyHub · Admin</a>
+    <a class="admin-settings__back" href="admin-dashboard.html">← Back to dashboard</a>
+  </header>
+  <main class="admin-settings__main">
+    <div class="admin-settings__intro">
+      <h1>System Settings</h1>
+      <p>Manage your admin account and appearance. Private server and authentication settings are managed in their respective dashboards, not in the browser.</p>
+    </div>
+    <div class="admin-settings__grid">
+      <section class="admin-settings__card">
+        <h2>Appearance</h2>
+        <p>Choose the light or dark theme for this browser. Your choice is saved on this device.</p>
+        <button class="admin-settings__action theme-toggle" id="theme-toggle" type="button">Toggle light/dark theme</button>
+      </section>
+      <section class="admin-settings__card">
+        <h2>Administrator account</h2>
+        <p>Update your profile details or change the password for your StudyHub account.</p>
+        <a class="admin-settings__action" href="/profile.html">Open my profile</a>
+        <a class="admin-settings__action" href="/reset-password.html">Change password</a>
+      </section>
+      <section class="admin-settings__card">
+        <h2>Private server configuration</h2>
+        <p>Keep the service-role key in <code>backend/.env</code> for local development or in your hosting provider’s private environment settings when live.</p>
+        <div class="admin-settings__note">Never enter or share the service-role key in a browser page, frontend file, screenshot, or chat.</div>
+      </section>
+      <section class="admin-settings__card">
+        <h2>Authentication and email</h2>
+        <p>Google sign-in, redirect URLs, email OTP, and SMTP delivery are configured in your Supabase project’s Authentication settings.</p>
+        <a class="admin-settings__action" href="https://supabase.com/dashboard/" target="_blank" rel="noopener noreferrer">Open Supabase Dashboard</a>
+      </section>
+    </div>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/auth.js?v=3"></script>
+  <script src="js/theme-toggle.js"></script>
+  <script>
+    (async () => {
+      const session = await requireAuth({ requireOnboarding: false, allowAdmin: true });
+      if (!session) return;
+      const { data: profile, error } = await supabase.from("profiles").select("role").eq("user_id", session.user.id).maybeSingle();
+      if (error) {
+        console.error("[StudyHub] Could not verify admin settings access:", error.message);
+        document.querySelector(".admin-settings__intro p").textContent = "Could not verify your administrator access. Refresh the page or sign in again.";
+        return;
+      }
+      if (profile?.role !== "admin") window.location.replace(homeForRole(profile?.role));
+    })();
+  </script>
+</body>
+</html>

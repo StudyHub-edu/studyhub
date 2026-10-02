@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Management — StudyHub</title>
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('studyhub_theme');
+        var light = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+        document.documentElement.dataset.theme = saved || 'light';
+      } catch (_) {}
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/auth.css" />
+  <link rel="stylesheet" href="css/dashboard-v2.css" />
+  <link rel="stylesheet" href="css/admin-tools.css" />
+</head>
+<body class="dash2 admin-tools">
+  <header class="admin-tools__top">
+    <a href="admin-dashboard.html" class="admin-tools__brand"><img src="/assets/studyhub-logo.png" alt="" />StudyHub Admin</a>
+    <nav aria-label="Admin navigation">
+      <a href="admin-dashboard.html">Dashboard</a>
+      <a href="#users">Users &amp; teachers</a>
+      <a href="#institutions">Schools &amp; colleges</a>
+      <a href="#content">Content</a>
+      <button type="button" id="theme-toggle" class="admin-tools__theme">Toggle theme</button>
+    </nav>
+  </header>
+
+  <main class="admin-tools__main">
+    <div class="admin-tools__heading">
+      <div>
+        <p class="admin-tools__eyebrow">ADMINISTRATION</p>
+        <h1>Management tools</h1>
+        <p>Create student and teacher accounts, register institutions, and publish learning resources.</p>
+      </div>
+      <a class="admin-tools__back" href="admin-dashboard.html">← Back to dashboard</a>
+    </div>
+    <div id="admin-alert" class="admin-tools__alert" role="status" aria-live="polite" hidden></div>
+
+    <section id="users" class="admin-tools__panel">
+      <div class="admin-tools__section-heading">
+        <div><span class="admin-tools__step">01</span><h2>Create a user</h2></div>
+        <p>Use this form for students and teachers. Admin roles can only be assigned through the protected setup process.</p>
+      </div>
+      <form id="user-form" class="admin-tools__form">
+        <label>Account type
+          <select id="user-role" name="role" required>
+            <option value="student">Student</option>
+            <option value="teacher">Teacher</option>
+          </select>
+        </label>
+        <label>Full name
+          <input name="full_name" autocomplete="name" maxlength="120" required />
+        </label>
+        <label>Email address
+          <input name="email" type="email" autocomplete="off" maxlength="254" required />
+        </label>
+        <label>Initial password
+          <input name="password" type="password" autocomplete="new-password" minlength="12" required />
+          <small>At least 12 characters, with a letter and a number. Share it securely; do not reuse it.</small>
+        </label>
+        <label>School, college, or university
+          <select id="user-institution" name="institution_id">
+            <option value="">No institution selected</option>
+          </select>
+        </label>
+        <label id="class-level-wrap">Class / level
+          <input name="class_level" maxlength="32" placeholder="e.g. Class 10 or Bachelor's" />
+        </label>
+        <div class="admin-tools__form-actions">
+          <button class="admin-tools__submit" type="submit">Create account</button>
+          <span class="admin-tools__form-status" id="user-status" aria-live="polite"></span>
+        </div>
+      </form>
+    </section>
+
+    <section id="institutions" class="admin-tools__panel">
+      <div class="admin-tools__section-heading">
+        <div><span class="admin-tools__step">02</span><h2>Add a school or college</h2></div>
+        <p>New institutions are added to the shared StudyHub directory and become selectable for accounts.</p>
+      </div>
+      <form id="institution-form" class="admin-tools__form">
+        <label>Institution name
+          <input name="name" maxlength="160" required />
+        </label>
+        <label>Type
+          <select name="type" required>
+            <option value="school">School</option>
+            <option value="college">College</option>
+            <option value="university">University</option>
+            <option value="other">Other</option>
+          </select>
+        </label>
+        <label>City
+          <input name="city" maxlength="100" />
+        </label>
+        <label>Address (optional)
+          <input name="address" maxlength="240" />
+        </label>
+        <label>Latitude (optional)
+          <input name="latitude" type="number" min="-90" max="90" step="any" inputmode="decimal" />
+        </label>
+        <label>Longitude (optional)
+          <input name="longitude" type="number" min="-180" max="180" step="any" inputmode="decimal" />
+        </label>
+        <div class="admin-tools__form-actions">
+          <button class="admin-tools__submit" type="submit">Add institution</button>
+          <span class="admin-tools__form-status" id="institution-status" aria-live="polite"></span>
+        </div>
+      </form>
+    </section>
+
+    <section id="content" class="admin-tools__panel">
+      <div class="admin-tools__section-heading">
+        <div><span class="admin-tools__step">03</span><h2>Upload learning content</h2></div>
+        <p>Publish a JPG, PNG, or WebP image directly to the Notes library. Files are limited to 25 MB and are visible immediately.</p>
+      </div>
+      <form id="content-form" class="admin-tools__form">
+        <label>Title
+          <input name="title" maxlength="180" required />
+        </label>
+        <label>Subject
+          <input name="subject" maxlength="100" required />
+        </label>
+        <label>Class / level
+          <input name="class_level" maxlength="60" placeholder="e.g. Class 10" required />
+        </label>
+        <label>Chapter (optional)
+          <input name="chapter" maxlength="120" />
+        </label>
+        <label class="admin-tools__wide">Description (optional)
+          <textarea name="description" rows="3" maxlength="500"></textarea>
+        </label>
+        <label class="admin-tools__wide">Images
+          <input name="file" type="file" accept="image/jpeg,image/png,image/webp" multiple required />
+          <small>Add up to 10 JPG, PNG, or WebP images. Maximum file size: 25 MB each.</small>
+        </label>
+        <div class="admin-tools__form-actions">
+          <button class="admin-tools__submit" type="submit">Upload and publish</button>
+          <span class="admin-tools__form-status" id="content-status" aria-live="polite"></span>
+        </div>
+      </form>
+    </section>
+    <p class="admin-tools__security">Account and institution creation require <code>SUPABASE_SERVICE_ROLE_KEY</code> in <code>backend/.env</code>; restart the backend after adding it. Content uploads require the Supabase setup scripts <code>admin_schema.sql</code> and <code>notes_schema.sql</code>. Never put the service key in frontend code.</p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/auth.js?v=2"></script>
+  <script src="js/theme-toggle.js"></script>
+  <script src="js/admin-tools.js?v=4"></script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Finish setting up — StudyHub</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/auth.css?v=4" />
+  </head>
+
+  <body class="auth-scene auth-scene--onboarding">
+    <main class="shell">
+      <section class="brand-panel">
+        <a class="brand-mark" href="dashboard" aria-label="StudyHub home">
+          <span class="brand-mark__glyph" aria-hidden="true">
+            <img src="/assets/studyhub-logo.png" alt="" />
+          </span>
+          <span class="brand-mark__name">StudyHub</span>
+        </a>
+
+        <h1>Almost there.</h1>
+        <p>
+          One last step — tell us your institution and account type so we can
+          show you the right classes, questions, and people.
+        </p>
+
+        <div class="brand-tagline">
+          <span>Learn</span><span>Share</span><span>Solve</span><span>Connect</span>
+        </div>
+      </section>
+
+      <section class="auth-card">
+        <header class="auth-card__head">
+          <h2>Finish setting up your account</h2>
+          <p class="auth-card__sub">This only takes a few seconds.</p>
+        </header>
+
+        <div class="alert" id="form-alert" hidden></div>
+
+        <form id="onboarding-form" novalidate>
+          <div class="field">
+            <label for="full-name">Full name</label>
+            <input type="text" id="full-name" name="full-name" placeholder="Your full name" autocomplete="name" />
+            <span class="field-error" id="full-name-error" aria-live="polite"></span>
+          </div>
+
+          <div class="field">
+            <label for="phone">Phone number</label>
+            <input type="tel" id="phone" name="phone" placeholder="Optional" autocomplete="tel" inputmode="tel" />
+          </div>
+
+          <fieldset class="fieldset">
+            <legend>Account type</legend>
+            <div class="segmented">
+              <input type="radio" id="role-student" name="role" value="student" checked />
+              <label for="role-student">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 2 9l10 5 10-5-10-5Z" /><path d="M6 11v4.5c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5V11" /></svg>
+                Student
+              </label>
+
+              <input type="radio" id="role-teacher" name="role" value="teacher" />
+              <label for="role-teacher">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3.5" width="18" height="13" rx="2" /><path d="M8 20.5h8M12 16.5v4" /></svg>
+                Teacher
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="field">
+            <label for="institution">Institution</label>
+            <div class="combo">
+              <input
+                type="text"
+                id="institution"
+                name="institution"
+                placeholder="Select your school or college"
+                maxlength="160"
+                role="combobox"
+                aria-expanded="false"
+                aria-autocomplete="list"
+                aria-controls="institution-list"
+                autocomplete="off"
+                aria-describedby="institution-error"
+              />
+              <input type="hidden" id="institution-id" name="institution-id" />
+              <ul class="combo__list" id="institution-list" role="listbox" hidden></ul>
+            </div>
+            <span class="field-error" id="institution-error" aria-live="polite"></span>
+          </div>
+
+          <div class="field" id="class-field">
+            <label for="class-level">Class / level</label>
+            <select id="class-level" name="class-level" aria-describedby="class-level-error"></select>
+            <span class="field-error" id="class-level-error" aria-live="polite"></span>
+          </div>
+
+          <button type="submit" class="btn btn--primary" id="submit-btn" style="margin-top: 1rem">
+            <span class="btn__spinner" aria-hidden="true"></span>
+            <span class="btn__label">Continue to StudyHub</span>
+          </button>
+        </form>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/onboarding.js"></script>
+  </body>
+</html>

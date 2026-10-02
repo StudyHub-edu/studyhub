@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Verify your email — StudyHub</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/auth.css" />
+  </head>
+
+  <body>
+    <main class="shell">
+      <section class="brand-panel">
+        <a class="brand-mark" href="index.html" aria-label="StudyHub home">
+          <span class="brand-mark__glyph" aria-hidden="true">
+            <img src="/assets/studyhub-logo.png" alt="" />
+          </span>
+          <span class="brand-mark__name">StudyHub</span>
+        </a>
+
+        <h1>One code, and you're in.</h1>
+        <p>
+          We verify every email so the people answering your questions are
+          really from your academic community.
+        </p>
+
+        <div class="brand-tagline">
+          <span>Learn</span><span>Share</span><span>Solve</span><span>Connect</span>
+        </div>
+      </section>
+
+      <section class="auth-card auth-card--narrow">
+        <header class="auth-card__head">
+          <h2>Verify your account</h2>
+          <p class="auth-card__sub">
+            We've sent a verification code to:
+            <strong class="otp-target" id="target-value">your account</strong>
+          </p>
+        </header>
+
+        <div class="alert" id="form-alert" hidden></div>
+
+        <form id="verify-form" novalidate>
+          <div class="field">
+            <label for="verify-code">Verification code</label>
+            <input
+              type="text"
+              id="verify-code"
+              name="verify-code"
+              placeholder="Enter the code you received"
+              inputmode="numeric"
+              autocomplete="one-time-code"
+              aria-describedby="verify-code-error"
+            />
+            <span class="field-error" id="verify-code-error" aria-live="polite"></span>
+          </div>
+
+          <button type="submit" class="btn btn--primary" id="submit-btn" style="margin-top: 1rem">
+            <span class="btn__spinner" aria-hidden="true"></span>
+            <span class="btn__label">Verify code</span>
+          </button>
+        </form>
+
+        <div class="resend-row">
+          <span id="resend-status" aria-live="polite">Didn't get the code?</span>
+          <button type="button" class="btn btn--link" id="resend-btn">
+            <span class="btn__spinner" aria-hidden="true"></span>
+            <span class="btn__label">Resend code</span>
+          </button>
+        </div>
+
+        <p class="auth-card__foot">
+          Wrong details? <a id="change-target" href="register.html">Register again</a>
+          &nbsp;·&nbsp; <a href="index.html">Back to login</a>
+        </p>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+    <script src="js/config.js?v=2"></script>
+    <script src="js/auth.js?v=4"></script>
+    <script src="js/verify.js?v=2"></script>
+  </body>
+</html>

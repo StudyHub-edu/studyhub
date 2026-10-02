@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Notes — StudyHub</title>
+
+  <script>
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem('studyhub_theme'); } catch (e) {}
+      var light = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      document.documentElement.dataset.theme = saved || 'light';
+    })();
+  </script>
+
+  <link rel="icon" href="/assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/auth.css" />
+  <link rel="stylesheet" href="css/dashboard-v2.css" />
+  <link rel="stylesheet" href="css/notes.css?v=2" />
+</head>
+
+<body class="dash2 notes-page">
+
+  <header class="notes-header">
+    <a class="notes-header__back" id="back-link" href="dashboard.html" aria-label="Back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m15 6-6 6 6 6"/></svg>
+    </a>
+    <a class="notes-header__brand" id="home-link" href="dashboard.html">
+      <img src="/assets/studyhub-logo.png" alt="StudyHub">
+      Notes
+    </a>
+    <form class="notes-header__search" id="search-form">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="search-input" type="search" placeholder="Search by title, subject, chapter…" />
+    </form>
+    <div class="notes-header__right">
+      <button type="button" class="btn btn--primary btn--sm" id="upload-btn">
+        <span class="btn__label">+ Upload</span>
+      </button>
+      <span class="avatar avatar--sm" data-avatar>S</span>
+      <img class="avatar avatar--sm" data-avatar-img hidden alt="" />
+    </div>
+  </header>
+
+  <div class="notes-wrap">
+    <div class="notes-title-row">
+      <div>
+        <h1>Notes</h1>
+        <p>Browse notes, past study material and videos shared by your class.</p>
+      </div>
+    </div>
+
+    <div class="notes-tabs">
+      <button type="button" class="notes-tab is-active" data-tab="all">All Notes</button>
+      <button type="button" class="notes-tab" data-tab="mine">My Uploads</button>
+      <button type="button" class="notes-tab" data-tab="saved">Saved</button>
+    </div>
+
+    <div class="notes-filters">
+      <select id="filter-subject"><option value="">All Subjects</option></select>
+      <select id="filter-class"><option value="">All Classes</option></select>
+      <select id="filter-type">
+        <option value="">All Types</option>
+        <option value="text">Written Notes</option>
+        <option value="image">Photos</option>
+        <option value="link">Study Links</option>
+        <option value="video_link">Videos (link)</option>
+      </select>
+      <span class="spacer"></span>
+      <select id="sort-by">
+        <option value="newest">Newest first</option>
+        <option value="popular">Most saved</option>
+        <option value="rating">Highest rated</option>
+      </select>
+    </div>
+
+    <div class="notes-grid" id="notes-grid"></div>
+    <div class="notes-loadmore" id="load-more-wrap" hidden>
+      <button type="button" class="btn btn--ghost btn--sm" id="load-more-btn"><span class="btn__label">Load more</span></button>
+    </div>
+  </div>
+
+  <!-- ============================================================= UPLOAD MODAL -->
+  <div class="modal-backdrop" id="upload-modal" hidden>
+    <div class="modal-card">
+      <div class="modal-card__head">
+        <h2>Upload a note</h2>
+        <button type="button" class="modal-close" id="upload-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      </div>
+
+      <div class="type-tabs" id="type-tabs">
+        <button type="button" class="type-tab is-active" data-type="text">Written</button>
+        <button type="button" class="type-tab" data-type="image">Photo</button>
+        <button type="button" class="type-tab" data-type="link">Link</button>
+        <button type="button" class="type-tab" data-type="video_link">Video link</button>
+      </div>
+
+      <form id="upload-form">
+        <div class="form-field">
+          <label for="f-title">Title *</label>
+          <input type="text" id="f-title" required maxlength="120" placeholder="e.g. Quadratic Equations — full notes">
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label for="f-subject">Subject *</label>
+            <input type="text" id="f-subject" required maxlength="60" placeholder="e.g. Mathematics" list="subject-list">
+            <datalist id="subject-list"></datalist>
+          </div>
+          <div class="form-field">
+            <label for="f-class">Class / Grade *</label>
+            <input type="text" id="f-class" required maxlength="40" placeholder="e.g. Class 11" list="class-list">
+            <datalist id="class-list"></datalist>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="f-chapter">Chapter / Topic</label>
+          <input type="text" id="f-chapter" maxlength="80" placeholder="e.g. Chapter 4 — Quadratic Equations">
+        </div>
+
+        <div class="form-field">
+          <label for="f-desc">Description</label>
+          <textarea id="f-desc" maxlength="600" placeholder="What's in this note? Anything students should know before opening it."></textarea>
+        </div>
+
+        <!-- Type-specific fields -->
+        <div class="form-field" data-field-for="text">
+          <label for="f-content">Note content *</label>
+          <textarea id="f-content" placeholder="Type or paste your notes here…" style="min-height:160px;"></textarea>
+        </div>
+        <div class="form-field">
+          <label for="f-image">Photos <span id="photo-required-label">(optional)</span></label>
+          <input type="file" id="f-image" accept="image/jpeg,image/png,image/webp" multiple>
+          <p class="form-hint">Attach up to 10 JPG, PNG, or WebP images, each up to 25MB. Photo notes require at least one.</p>
+        </div>
+        <div class="form-field" data-field-for="link" hidden>
+          <label for="f-link">Study material link *</label>
+          <input type="url" id="f-link" placeholder="https://…">
+        </div>
+        <div class="form-field" data-field-for="video_link" hidden>
+          <label for="f-video-link">Video link *</label>
+          <input type="url" id="f-video-link" placeholder="https://youtube.com/watch?v=…">
+        </div>
+
+        <div class="form-field">
+          <label for="f-tags">Tags (comma separated)</label>
+          <input type="text" id="f-tags" placeholder="e.g. exam-prep, formulas, diagrams">
+        </div>
+
+        <label style="display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:var(--text-dim);margin-bottom:.5rem;">
+          <input type="checkbox" id="f-allow-download" checked style="width:auto;">
+          Allow other students to download this
+        </label>
+
+        <p class="form-error" id="upload-error"></p>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn--ghost btn--sm" id="upload-cancel"><span class="btn__label">Cancel</span></button>
+          <button type="submit" class="btn btn--primary btn--sm" id="upload-submit"><span class="btn__label">Upload</span></button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================= DETAIL MODAL -->
+  <div class="modal-backdrop" id="detail-modal" hidden>
+    <div class="modal-card" id="detail-card"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/auth.js?v=5"></script>
+  <script src="js/notes.js?v=7"></script>
+</body>
+</html>

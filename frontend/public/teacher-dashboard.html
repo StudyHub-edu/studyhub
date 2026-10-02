@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="/assets/favicon.png">
+  <title>StudyHub — Teacher</title>
+
+  <script>
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem('studyhub_theme'); } catch (e) {}
+      var light = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      document.documentElement.dataset.theme = saved || 'light';
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/auth.css" />
+  <link rel="stylesheet" href="css/dashboard-v2.css?v=13" />
+  <link rel="stylesheet" href="css/community-feed.css?v=3" />
+</head>
+
+<body class="dash2 dash2--teacher">
+
+  <div class="app-shell" id="app-shell">
+
+    <!-- ========================================================== SIDEBAR -->
+    <aside class="sidebar">
+      <a href="teacher-dashboard.html" class="sidebar__brand">
+        <img src="/assets/studyhub-logo.png" alt="StudyHub" class="sidebar__brand-logo">
+        StudyHub
+      </a>
+
+      <nav class="sidebar__nav">
+        <a href="teacher-dashboard.html" class="sidebar__link is-active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+          Home
+        </a>
+        <a href="/community/#/dashboard" class="sidebar__link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13Z"/></svg>
+          My Classes
+        </a>
+        <a href="/library/" class="sidebar__link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h4v16H4zM10 4h4v16h-4zM16 6l4-1 1 15-4 1z"/></svg>
+          My Library
+        </a>
+        <a href="note.html" class="sidebar__link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+          Notes
+        </a>
+        <a href="ai-teacher.html" class="sidebar__link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/><rect x="7" y="7" width="10" height="10" rx="3"/></svg>
+          AI Teacher
+        </a>
+        <a href="/community/#/chat" class="sidebar__link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10Z"/></svg>
+          Messages
+          <span class="sidebar__link-badge" id="messages-badge" hidden>0</span>
+        </a>
+        <a href="/community/#/members" class="sidebar__link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 19c0-3 3-5.2 6.5-5.2s6.5 2.2 6.5 5.2"/><circle cx="17.5" cy="8.5" r="2.3"/><path d="M15.8 13.9c2.6.3 4.7 2.2 4.7 4.6"/></svg>
+          Students
+        </a>
+        <a href="coming-soon.html?feature=Earnings" class="sidebar__link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5a2.5 2.5 0 0 1 2.5-1.5c1.5 0 2.5.8 2.5 2s-1 1.7-2.5 2-2.5.8-2.5 2 1 2 2.5 2a2.5 2.5 0 0 0 2.5-1.5"/></svg>
+          Earnings
+        </a>
+        <a href="/community/#/calendar" class="sidebar__link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+          Calendar
+        </a>
+        <a href="profile.html" class="sidebar__link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
+          Settings
+        </a>
+      </nav>
+
+    </aside>
+
+    <!-- ============================================================ TOPBAR -->
+    <header class="topbar2">
+      <button type="button" class="mobile-toggle" id="nav-toggle" aria-label="Toggle navigation">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+
+      <form class="topbar2__search" id="search-form">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="search-input" type="search" placeholder="Search classes, students, notes, or topics…" />
+        <kbd>Ctrl + K</kbd>
+      </form>
+
+      <div class="topbar2__right">
+        <button type="button" class="icon-btn theme-toggle" id="theme-toggle" aria-label="Toggle dark/light theme">
+          <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
+          <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+        </button>
+
+        <button type="button" class="icon-btn" aria-label="Notifications" onclick="window.location.href='notifications.html'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 5-2 6-2 6h16s-2-1-2-6Z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+          <span class="icon-btn__dot" id="notif-dot"></span>
+        </button>
+
+        <div class="profile-menu" id="profile-menu">
+          <button type="button" class="profile-trigger" id="profile-trigger">
+            <span class="avatar avatar--sm" data-avatar>T</span>
+            <img class="avatar avatar--sm" data-avatar-img hidden alt="" />
+            <svg class="profile-trigger__caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="profile-dropdown">
+            <div class="profile-dropdown__head">
+              <span class="avatar avatar--md" data-avatar>T</span>
+              <img class="avatar avatar--md" data-avatar-img hidden alt="" />
+              <div>
+                <div class="profile-dropdown__name">
+                  <span data-identity-name>—</span>
+                  <svg data-verified-badge hidden viewBox="0 0 24 24" fill="currentColor"><path d="m9.5 12.8-2-2-1.4 1.4L9.5 15.6l7-7L15.1 7l-5.6 5.8Z"/></svg>
+                </div>
+                <div class="profile-dropdown__meta" data-identity-meta>—</div>
+              </div>
+            </div>
+            <a href="profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>My Profile</a>
+            <a href="/community/#/dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13Z"/></svg>My Classes</a>
+            <a href="saved-resources.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12v18l-6-4-6 4V3Z"/></svg>Saved Resources</a>
+            <a href="/community/#/calendar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Calendar</a>
+            <div class="profile-dropdown__divider"></div>
+            <a href="profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>Settings</a>
+            <a href="reset-password.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Change Password</a>
+            <div class="profile-dropdown__divider"></div>
+            <button type="button" class="is-danger" onclick="studyHubSignOut()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg>Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============================================================== MAIN -->
+    <main class="dash-main2">
+
+      <!-- Hero -->
+      <section class="hero2">
+        <div class="hero2__quote">
+          “Great teachers change the world one student at a time.”
+          <span></span>
+        </div>
+        <div class="hero2__body">
+          <div class="hero2__greeting">
+            <div class="hero2__eyebrow" id="greeting-word">Good morning,</div>
+            <h1><span id="greeting-name">there</span> 👋</h1>
+            <p class="hero2__sub">Teach • Inspire • Build a better tomorrow.</p>
+          </div>
+          <a class="hero2__profile" href="profile.html#identity-verification" aria-label="Verify account or view your profile">
+            <span class="hero2__profile-avatar">
+              <span class="avatar avatar--xl" data-avatar>T</span>
+              <img class="avatar avatar--xl" data-avatar-img hidden alt="" />
+            </span>
+            <span class="hero2__profile-details">
+              <span class="hero2__profile-item"><span>School / College</span><strong data-profile-institution>—</strong></span>
+              <span class="hero2__profile-item"><span data-profile-level-label>Account type</span><strong data-profile-level>Teacher</strong></span>
+              <span class="hero2__profile-verification is-unverified" data-profile-verification>Not verified</span>
+            </span>
+          </a>
+        </div>
+        <div class="kpi-grid2" id="hero-stats" style="position:relative;z-index:1;">
+          <div class="kpi-card2" style="background:rgba(8,14,30,.55);border-color:rgba(255,255,255,.14);backdrop-filter:blur(6px);">
+            <span class="kpi-card2__icon kpi-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 19c0-3 3-5.2 6.5-5.2s6.5 2.2 6.5 5.2"/><circle cx="17.5" cy="8.5" r="2.3"/><path d="M15.8 13.9c2.6.3 4.7 2.2 4.7 4.6"/></svg></span>
+            <div><div class="kpi-card2__label" style="color:rgba(255,255,255,.7)">Your Classes</div><div class="kpi-card2__value" style="color:#fff" id="stat-classes">—</div></div>
+          </div>
+          <div class="kpi-card2" style="background:rgba(8,14,30,.55);border-color:rgba(255,255,255,.14);backdrop-filter:blur(6px);">
+            <span class="kpi-card2__icon kpi-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span>
+            <div><div class="kpi-card2__label" style="color:rgba(255,255,255,.7)">Total Students</div><div class="kpi-card2__value" style="color:#fff" id="stat-students">—</div></div>
+          </div>
+          <div class="kpi-card2" style="background:rgba(8,14,30,.55);border-color:rgba(255,255,255,.14);backdrop-filter:blur(6px);">
+            <span class="kpi-card2__icon kpi-violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z"/></svg></span>
+            <div><div class="kpi-card2__label" style="color:rgba(255,255,255,.7)">Resources Uploaded</div><div class="kpi-card2__value" style="color:#fff" id="stat-resources">—</div></div>
+          </div>
+          <div class="kpi-card2" style="background:rgba(8,14,30,.55);border-color:rgba(255,255,255,.14);backdrop-filter:blur(6px);">
+            <span class="kpi-card2__icon kpi-orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 3.1 6.7 7.4.6-5.6 5 1.7 7.2L12 17.8 5.4 21.5l1.7-7.2-5.6-5 7.4-.6z"/></svg></span>
+            <div><div class="kpi-card2__label" style="color:rgba(255,255,255,.7)">Avg Rating</div><div class="kpi-card2__value" style="color:#fff" id="stat-rating">—</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quick Actions -->
+      <section>
+        <div class="panel2__head"><h2>Quick Actions</h2></div>
+        <div class="qa-grid2">
+          <a class="qa-card2" href="note.html">
+            <span class="qa-card2__icon qa-blue2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z"/></svg></span>
+            <div class="qa-card2__title-row"><span class="qa-card2__title">Notes</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg></div>
+            <div class="qa-card2__desc">Share study materials</div>
+          </a>
+          <a class="qa-card2" href="ai-teacher.html">
+            <span class="qa-card2__icon qa-violet2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/><rect x="7" y="7" width="10" height="10" rx="3"/></svg></span>
+            <div class="qa-card2__title-row"><span class="qa-card2__title">AI Teacher</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg></div>
+            <div class="qa-card2__desc">Ask questions and prepare lessons</div>
+          </a>
+          <a class="qa-card2" href="/community/#/calendar">
+            <span class="qa-card2__icon qa-violet2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="15" height="14" rx="2"/><path d="m22 8-5 4 5 4V8Z"/></svg></span>
+            <div class="qa-card2__title-row"><span class="qa-card2__title">Start Live Class</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg></div>
+            <div class="qa-card2__desc">Teach in real-time</div>
+          </a>
+          <a class="qa-card2" href="/community/#/calendar">
+            <span class="qa-card2__icon qa-green2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z"/><path d="M9 13h6M9 17h6"/></svg></span>
+            <div class="qa-card2__title-row"><span class="qa-card2__title">Create Assignment</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg></div>
+            <div class="qa-card2__desc">Help students prepare</div>
+          </a>
+          <a class="qa-card2" href="past-papers.html">
+            <span class="qa-card2__icon qa-blue2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z"/></svg></span>
+            <div class="qa-card2__title-row"><span class="qa-card2__title">Add Past Papers</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg></div>
+            <div class="qa-card2__desc">Help students prepare</div>
+          </a>
+          <a class="qa-card2" href="/community/#/members">
+            <span class="qa-card2__icon qa-teal2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 19c0-3 3-5.2 6.5-5.2s6.5 2.2 6.5 5.2"/><circle cx="17.5" cy="8.5" r="2.3"/><path d="M15.8 13.9c2.6.3 4.7 2.2 4.7 4.6"/></svg></span>
+            <div class="qa-card2__title-row"><span class="qa-card2__title">View Students</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg></div>
+            <div class="qa-card2__desc">Manage your class</div>
+          </a>
+        </div>
+      </section>
+
+      <section class="panel2 community-feed" data-community-feed>
+        <div class="panel2__head"><h2>Community Feed</h2></div>
+        <p class="community-feed__intro">See new notes, study resources, past papers, and questions shared by StudyHub members.</p>
+        <div class="community-feed__actions">
+          <a class="community-feed__action community-feed__action--primary" href="note.html">Share a resource</a>
+          <a class="community-feed__action" href="past-papers.html">Share a past paper</a>
+          <a class="community-feed__action" href="/community/#/qa">Ask a question</a>
+        </div>
+        <div class="community-feed__filters" aria-label="Filter community feed">
+          <button class="community-feed__filter" type="button" data-feed-filter="all" aria-pressed="true">All activity</button>
+          <button class="community-feed__filter" type="button" data-feed-filter="materials" aria-pressed="false">Notes &amp; resources</button>
+          <button class="community-feed__filter" type="button" data-feed-filter="questions" aria-pressed="false">Questions</button>
+        </div>
+        <p class="community-feed__status" data-feed-status aria-live="polite"></p>
+        <div class="community-feed__list" data-feed-list aria-live="polite"></div>
+        <button class="community-feed__more" type="button" data-feed-more hidden>Show more</button>
+      </section>
+
+      <!-- Row: My Classes / Recent Uploads -->
+      <div class="dash-row2">
+        <section class="panel2">
+          <div class="panel2__head"><h2>My Classes</h2><a href="/community/#/dashboard">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg></a></div>
+          <div id="classes-body"></div>
+        </section>
+
+        <section class="panel2">
+          <div class="panel2__head"><h2>Recent Uploads</h2><a href="/library/">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg></a></div>
+          <div id="uploads-body"></div>
+        </section>
+      </div>
+
+      <!-- Row: This Week / Recent Student Activity -->
+      <div class="dash-row2">
+        <section class="panel2">
+          <div class="panel2__head"><h2>This Week at a Glance</h2><a href="/community/#/calendar">View Calendar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg></a></div>
+          <div class="weekbar2__row">
+            <div class="weekbar2__stat"><b id="week-classes">—</b>Classes</div>
+            <div class="weekbar2__stat"><b id="week-students">—</b>Active Students</div>
+            <div class="weekbar2__stat"><b id="week-assignments">—</b>Assignments</div>
+          </div>
+          <div class="weekbar2" id="weekbar"></div>
+        </section>
+
+        <section class="panel2">
+          <div class="panel2__head"><h2>Recent Student Activity</h2></div>
+          <div id="activity-body"></div>
+        </section>
+      </div>
+
+    </main>
+
+    <!-- =========================================================== RIGHT RAIL -->
+    <aside class="right-rail">
+
+      <section class="panel2">
+        <div class="panel2__head"><h2>Today's Schedule</h2><a href="/community/#/calendar">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg></a></div>
+        <div id="today-body"></div>
+      </section>
+
+      <section class="panel2">
+        <div class="panel2__head"><h2>Upcoming Events</h2><a href="/community/#/calendar">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg></a></div>
+        <div id="upcoming-body"></div>
+      </section>
+
+      <section class="panel2">
+        <div class="panel2__head"><h2>Quick Links</h2></div>
+        <div class="quicklink-grid2">
+          <a class="quicklink2" href="/library/"><span class="quicklink2__icon qa-blue2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13Z"/></svg></span><span class="quicklink2__label">E-Library</span></a>
+          <a class="quicklink2" href="past-papers.html"><span class="quicklink2__icon qa-violet2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z"/></svg></span><span class="quicklink2__label">Past Papers</span></a>
+          <a class="quicklink2" href="/community/#/members"><span class="quicklink2__icon qa-green2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 19c0-3 3-5.2 6.5-5.2s6.5 2.2 6.5 5.2"/></svg></span><span class="quicklink2__label">Student List</span></a>
+          <a class="quicklink2" href="/community/#/resources"><span class="quicklink2__icon qa-teal2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h4v16H4zM10 4h4v16h-4zM16 6l4-1 1 15-4 1z"/></svg></span><span class="quicklink2__label">Resources</span></a>
+        </div>
+      </section>
+
+    </aside>
+
+  </div>
+
+  <footer style="text-align:center;padding:1.2rem;color:var(--text-faint);font-size:.8rem;border-top:1px solid var(--line);">
+    © 2026 StudyHub. All rights reserved. ·
+    <a href="#" style="color:var(--text-faint);">Help</a> ·
+    <a href="#" style="color:var(--text-faint);">Privacy</a> ·
+    <a href="#" style="color:var(--text-faint);">Terms</a> ·
+    <a href="#" style="color:var(--text-faint);">Contact</a>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/auth-bridge.js"></script>
+  <script src="js/auth.js?v=4"></script>
+  <script src="js/dashboard-nav.js"></script>
+  <script src="js/theme-toggle.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/community-client.js"></script>
+  <script src="js/community-feed.js?v=3"></script>
+  <script src="js/teacher-dashboard.js?v=2"></script>
+</body>
+</html>

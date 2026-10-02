@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#05070f">
+<link rel="icon" href="/assets/favicon.png">
+<title>Reader &middot; StudyHub Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="readerBody" data-theme="paper">
+<header class="rd-bar">
+  <a id="back" class="rd-back" href="index.html" aria-label="Back">&larr; <span class="hide-sm">Back</span></a>
+  <div class="rd-title"><strong id="title">Reader</strong><small id="author"></small></div>
+  <div class="rd-tools" id="tools" role="toolbar" aria-label="Reader tools"></div>
+</header>
+<div class="rd-body">
+  <aside class="rd-panel hidden" id="panel" aria-label="Contents and bookmarks">
+    <div class="tabs" role="tablist">
+      <button class="tab active" type="button" role="tab" data-tab="toc">Contents</button>
+      <button class="tab" type="button" role="tab" data-tab="marks">Bookmarks</button>
+    </div>
+    <div id="panelBody" class="panel-body"></div>
+  </aside>
+  <main class="rd-stage" id="stage" tabindex="-1"><div class="rd-message"><span class="spinner"></span><p>Opening the book...</p></div></main>
+</div>
+<footer class="rd-foot">
+  <button id="prev" class="btn" type="button" aria-label="Previous page">&lsaquo; <span class="hide-sm">Previous</span></button>
+  <input id="slider" type="range" min="1" max="1" value="1" step="1" aria-label="Position in the book" disabled>
+  <span id="counter" class="counter" aria-live="polite"></span>
+  <button id="next" class="btn" type="button" aria-label="Next page"><span class="hide-sm">Next</span> &rsaquo;</button>
+</footer>
+<script type="module" src="js/reader.js"></script>
+</body>
+</html>

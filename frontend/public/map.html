@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Find Your Learning Destination — StudyHub</title>
+
+  <script>
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem('studyhub_theme'); } catch (e) {}
+      var light = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      document.documentElement.dataset.theme = saved || 'light';
+    })();
+  </script>
+
+  <link rel="icon" href="/assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="css/auth.css" />
+  <link rel="stylesheet" href="css/dashboard-v2.css?v=14" />
+  <link rel="stylesheet" href="css/map-page.css?v=5" />
+</head>
+
+<body class="dash2 map-page">
+
+  <header class="map-hero">
+    <a class="map-hero__back" id="back-link" href="dashboard.html" aria-label="Back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m15 6-6 6 6 6"/></svg>
+    </a>
+    <span class="map-hero__pin">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.6 7-12a7 7 0 1 0-14 0c0 5.4 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+    </span>
+    <div>
+      <h1>Find Your Learning Destination</h1>
+      <p>Discover schools, colleges, institutes and libraries around you.</p>
+    </div>
+    <svg class="map-hero__deco" viewBox="0 0 500 200" preserveAspectRatio="xMaxYMid slice">
+      <path d="M40 160 Q 150 60 260 110 T 460 50" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="6 8"/>
+      <circle cx="40" cy="160" r="7" fill="currentColor"/>
+      <circle cx="460" cy="50" r="7" fill="currentColor"/>
+      <path d="M250 30c-16 0-28 12-28 28 0 20 28 46 28 46s28-26 28-46c0-16-12-28-28-28Z" fill="currentColor"/>
+    </svg>
+  </header>
+
+  <div class="map-layout">
+
+    <!-- ============================================================= LEFT -->
+    <aside class="map-layout__panel">
+      <div class="transport-tabs" id="transport-tabs">
+        <button type="button" class="transport-tab is-active" data-mode="driving">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M6 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm16 0a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"/><path d="M3 17V9l2-5h14l2 5v8"/></svg>
+          Driving
+        </button>
+        <button type="button" class="transport-tab" data-mode="transit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="14" rx="2"/><path d="M4 11h16M8 21l2-4M16 21l-2-4M8 7h.01M16 7h.01"/></svg>
+          Transit
+        </button>
+        <button type="button" class="transport-tab" data-mode="walking">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="4" r="1.5"/><path d="m9 21 2-6-2-3 1-5 4 2 3 5M8 12l-3 2"/></svg>
+          Walking
+        </button>
+        <button type="button" class="transport-tab" data-mode="bicycling">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M6 17 10 8h5l3 9M10 8 8 5H6"/></svg>
+          Cycling
+        </button>
+      </div>
+
+      <div class="loc-field">
+        <span class="loc-field__icon is-you"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="5"/></svg></span>
+        <div class="loc-field__body">
+          <div class="loc-field__label">Your location</div>
+          <input class="loc-field__value" id="my-location-input" placeholder="Detecting… (press Enter to search an address)" />
+        </div>
+        <button type="button" class="loc-field__action" id="locate-btn" aria-label="Use current location">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+        </button>
+      </div>
+      <p class="map-status" id="map-status" role="status" aria-live="polite"></p>
+
+      <div class="loc-field">
+        <span class="loc-field__icon is-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h4v16H4zM10 4h4v16h-4zM16 6l4-1 1 15-4 1z"/></svg></span>
+        <div class="loc-field__body">
+          <div class="loc-field__label">School / College / Institute / Library</div>
+          <input class="loc-field__value" id="search-input" placeholder="Search for an institution…" />
+        </div>
+        <button type="button" class="loc-field__action" id="search-btn" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        </button>
+      </div>
+
+      <button type="button" class="add-dest-btn" id="add-dest-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        Add destination
+      </button>
+
+      <div class="inst-filters" id="inst-filters">
+        <span class="inst-filter-chip is-active" data-type="">All</span>
+        <span class="inst-filter-chip" data-type="school">Schools</span>
+        <span class="inst-filter-chip" data-type="college">Colleges</span>
+        <span class="inst-filter-chip" data-type="institute">Institutes</span>
+        <span class="inst-filter-chip" data-type="library">Libraries</span>
+      </div>
+
+      <div class="results-head">
+        <h2>Nearby Educational Institutions</h2>
+        <select id="sort-select">
+          <option value="distance">Sort by: Distance</option>
+          <option value="name">Sort by: Name</option>
+        </select>
+      </div>
+
+      <div id="results-list"></div>
+
+      <div class="type-legend">
+        <div class="type-legend__row"><span class="type-dot" style="background:#7c53e0"></span>School</div>
+        <div class="type-legend__row"><span class="type-dot" style="background:#4d7cff"></span>College</div>
+        <div class="type-legend__row"><span class="type-dot" style="background:#3ed3a3"></span>Library</div>
+        <div class="type-legend__row"><span class="type-dot" style="background:#e2505f"></span>Institute</div>
+      </div>
+    </aside>
+
+    <!-- =============================================================== MAP -->
+    <main class="map-layout__map">
+      <div id="leaflet-map"></div>
+      <div class="map-controls">
+        <button type="button" class="map-ctrl-btn" id="locate-map-btn" aria-label="Center on my location">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+        </button>
+        <div class="map-zoom">
+          <button type="button" id="zoom-in-btn" aria-label="Zoom in">+</button>
+          <button type="button" id="zoom-out-btn" aria-label="Zoom out">&minus;</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- ============================================================ DETAIL -->
+    <aside class="map-layout__panel" id="detail-panel">
+      <div class="detail-empty" id="detail-empty">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-6.6 7-12a7 7 0 1 0-14 0c0 5.4 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        <p>Select an institution to see details, facilities and directions.</p>
+      </div>
+      <div id="detail-content" hidden></div>
+    </aside>
+
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/map-page.js?v=3"></script>
+</body>
+</html>

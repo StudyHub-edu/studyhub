@@ -1,0 +1,36 @@
+.legal-page { min-height: 100%; background: var(--ink-950); }
+.legal-header {
+  position: relative; z-index: 1; display: flex; align-items: center;
+  justify-content: space-between; gap: 1rem; max-width: 960px; margin: 0 auto;
+  padding: 1rem 1.5rem; border-bottom: 1px solid var(--line);
+}
+.legal-brand { display: inline-flex; align-items: center; gap: .55rem; color: var(--text); font: 600 1rem var(--font-display); }
+.legal-brand img { width: 28px; height: 28px; object-fit: contain; }
+.legal-header nav { display: flex; flex-wrap: wrap; gap: 1rem; font-size: .86rem; }
+.legal-header nav a { color: var(--text-dim); }
+.legal-header nav a[aria-current="page"] { color: var(--blue-soft); }
+.legal-main {
+  position: relative; z-index: 1; width: min(100% - 2rem, 760px);
+  margin: 2.5rem auto 4rem; padding: clamp(1.25rem, 4vw, 2.5rem);
+  border: 1px solid var(--line); border-radius: var(--r-lg);
+  background: color-mix(in srgb, var(--ink-900) 88%, transparent);
+  box-shadow: var(--shadow-card);
+}
+.legal-eyebrow { margin: 0 0 .5rem; color: var(--blue-soft); font-size: .75rem; font-weight: 600; letter-spacing: .13em; }
+.legal-main h1 { margin: 0; font: 600 clamp(1.8rem, 5vw, 2.6rem) var(--font-display); color: var(--text); }
+.legal-updated { margin: .6rem 0 1.3rem; color: var(--text-faint); font-size: .84rem; }
+.legal-intro { padding: 1rem; border-left: 3px solid var(--blue); border-radius: 0 8px 8px 0; background: var(--ink-800); color: var(--text); }
+.legal-main section { margin-top: 1.7rem; }
+.legal-main h2 { margin: 0 0 .45rem; color: var(--text); font: 600 1.08rem var(--font-display); }
+.legal-main p, .legal-main li { color: var(--text-dim); font-size: .92rem; line-height: 1.75; }
+.legal-main p { margin: .45rem 0; }
+.legal-main ul { padding-left: 1.3rem; }
+.legal-main li + li { margin-top: .4rem; }
+.legal-main strong { color: var(--text); }
+.legal-footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .75rem; margin-top: 2.25rem; padding-top: 1.15rem; border-top: 1px solid var(--line); font-size: .9rem; }
+.legal-disclaimer { margin-top: 1rem !important; color: var(--text-faint) !important; font-size: .78rem !important; }
+@media (max-width: 540px) {
+  .legal-header { align-items: flex-start; flex-direction: column; padding-inline: 1rem; }
+  .legal-header nav { gap: .8rem; }
+  .legal-main { margin-top: 1.2rem; }
+}
