@@ -1,0 +1,11 @@
+-- ============================================================================
+-- StudyHub — verified map coordinates
+-- Run AFTER map_schema.sql.
+--
+-- No placeholder coordinates are inserted. The map geocodes an institution
+-- only when a user selects it; admins can store verified coordinates in the
+-- Table Editor for repeatable map markers.
+-- ============================================================================
+
+-- Do not generate placeholder coordinates. Institutions without a verified
+-- map location can be geocoded by the map page when a user selects them.
