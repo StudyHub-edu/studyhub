@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#05070f">
+<link rel="icon" href="/assets/favicon.png">
+<title>StudyHub Library</title>
+<meta name="description" content="Read Nepali literature, classic novels and school books online, as PDF and EPUB ebooks.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="nav">
+  <a class="nav-back" href="/dashboard.html" data-back-link aria-label="Back to StudyHub" title="Back to StudyHub">&larr;</a>
+  <a class="logo" href="/dashboard.html" data-home-link><img src="/assets/studyhub-logo.png" alt="" class="logo-mark"><span>Study</span>Hub <small>LIBRARY</small></a>
+  <nav aria-label="Sections">
+    <a href="#continue" id="navContinue" class="hidden">Continue</a>
+    <a href="#new">New</a>
+    <a href="#subjects">Subjects</a>
+    <a href="#browse">All books</a>
+  </nav>
+  <div class="nav-actions">
+    <a class="btn small" href="reader.html?local=1" title="Read a PDF or EPUB from your computer">Open a file</a>
+    <button class="btn small primary hidden" id="addBtn" type="button">+ Add ebook</button>
+    <button class="btn small ghost hidden" id="lockBtn" type="button" title="Sign out of librarian mode">Lock</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div>
+    <p class="eyebrow">STUDYHUB DIGITAL LIBRARY</p>
+    <h1>A library<br><i>made to read.</i></h1>
+    <p>Read Nepali literature, classic novels and school books right here, as PDF and EPUB ebooks. Your place is remembered on every book.</p>
+    <div class="search">
+      <span aria-hidden="true">&#8981;</span>
+      <input id="search" type="search" placeholder="Search books or authors (English or Nepali)" aria-label="Search books" autocomplete="off">
+    </div>
+    <p class="hero-stats" id="stats"></p>
+  </div>
+  <div class="heroShelf" id="heroShelf" aria-hidden="true"></div>
+</section>
+
+<main>
+  <section class="section hidden" id="continue">
+    <div class="heading"><div><p class="eyebrow">PICK UP WHERE YOU STOPPED</p><h2>Continue reading</h2></div><div class="arrows"><button type="button" data-rail="continueRail" data-dir="-1" aria-label="Scroll left">&larr;</button><button type="button" data-rail="continueRail" data-dir="1" aria-label="Scroll right">&rarr;</button></div></div>
+    <div class="rail" id="continueRail"></div>
+  </section>
+
+  <section class="section" id="new">
+    <div class="heading"><div><p class="eyebrow">JUST ADDED</p><h2>New books</h2></div><div class="arrows"><button type="button" data-rail="newRail" data-dir="-1" aria-label="Scroll left">&larr;</button><button type="button" data-rail="newRail" data-dir="1" aria-label="Scroll right">&rarr;</button></div></div>
+    <div class="rail" id="newRail"></div>
+  </section>
+
+  <section class="section hidden" id="popular">
+    <div class="heading"><div><p class="eyebrow">WHAT STUDENTS OPEN MOST</p><h2>Most read</h2></div><div class="arrows"><button type="button" data-rail="popularRail" data-dir="-1" aria-label="Scroll left">&larr;</button><button type="button" data-rail="popularRail" data-dir="1" aria-label="Scroll right">&rarr;</button></div></div>
+    <div class="rail" id="popularRail"></div>
+  </section>
+
+  <section class="section" id="subjects">
+    <div class="heading"><div><p class="eyebrow">SHELVES</p><h2>Subjects</h2></div></div>
+    <div class="subjectGrid" id="subjectsGrid"></div>
+  </section>
+
+  <section class="section" id="browse">
+    <div class="heading"><div><p class="eyebrow">EVERYTHING IN THE LIBRARY</p><h2 id="browseTitle">All books</h2></div><p class="count" id="count" aria-live="polite"></p></div>
+    <div class="toolbar">
+      <div class="chips" id="formatChips" role="group" aria-label="Format"></div>
+      <select id="categorySel" class="select" aria-label="Subject"></select>
+      <select id="sortSel" class="select" aria-label="Sort by">
+        <option value="new">Newest first</option>
+        <option value="title">Title A to Z</option>
+        <option value="author">Author A to Z</option>
+        <option value="read">Most read</option>
+      </select>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+</main>
+<footer>StudyHub Library &middot; Learn something new, every day.</footer>
+<script src="/js/site-home.js"></script>
+<script type="module" src="js/home.js"></script>
+</body>
+</html>
