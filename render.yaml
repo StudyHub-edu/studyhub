@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: studyhub
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SUPABASE_URL
+        value: https://rhcpnzduqishmbmfdwat.supabase.co
+      - key: SUPABASE_ANON_KEY
+        value: sb_publishable_UjrKKitdiei3AQLfDZUm-g_D0StWem1
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: LIBRARIAN_CODE
+        sync: false
